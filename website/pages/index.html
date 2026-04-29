@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="index.css" />
-    <title>Index Page</title>
-  </head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cookie Factory</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  <body>
-    <input id="itemInput" placeholder="Item">
-    <input id="amountInput" placeholder="Amount">
-    <button id="addButton">Add</button>
-    <ul id="itemsUl"></ul>
-    <script type="module" src="index.js"></script>
-  </body>
+  <div class="container">
+    <h1>🍪 Cookie Factory</h1>
+
+    <input id="username" type="text" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+
+    <button id="signupBtn">Sign Up</button>
+    <button id="signinBtn">Sign In</button>
+
+    <hr>
+
+    <button id="startBtn">Start Game</button>
+  </div>
+
+  <script src="auth.js"></script>
+</body>
 </html>
