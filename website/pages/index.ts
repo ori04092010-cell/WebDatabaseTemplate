@@ -1,10 +1,7 @@
-const goSignUp = document.getElementById("goSignUp") as HTMLButtonElement;
-const goLogIn = document.getElementById("goLogIn") as HTMLButtonElement;
-
-goSignUp.addEventListener("click", () => {
+document.getElementById("goSignUp")!.onclick = () => {
   window.location.href = "signup.html";
-});
+};
 
-goLogIn.addEventListener("click", () => {
+document.getElementById("goLogIn")!.onclick = () => {
   window.location.href = "login.html";
-});
+};
