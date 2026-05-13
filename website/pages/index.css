@@ -1,16 +1,42 @@
-#containerDiv {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+/* Main container centered */
+body {
+  background-image: url("Cookies.jpg"); /* or .jpg */
+  background-size: cover;       /* fills the whole screen */
+  background-position: center;  /* centers the image */
+  background-repeat: no-repeat; /* prevents tiling */
+  margin: 0;
+  padding: 0;
 }
 
-.authDiv {
-  margin: 1rem;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+  gap: 40px;
+  margin-top: 80px;
+}
+
+/* Big title */
+#Factory {
+  font-size: 4rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Row for the buttons */
+.button-row {
+  width: 350px; /* controls spacing between left and right */
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Bigger buttons */
+button {
+  font-size: 1.6rem;
+  padding: 14px 32px;
+  border-radius: 10px;
+  cursor: pointer;
 }
