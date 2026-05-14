@@ -1,0 +1,30 @@
+body {
+  background-color: #f5deb3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.game-container {
+  text-align: center;
+}
+
+.cookie-img {
+  width: 200px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.cookie-img:active {
+  transform: scale(0.9);
+}
+
+#buyCursor, #logoutBtn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+}

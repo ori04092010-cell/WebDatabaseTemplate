@@ -2,22 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cookie Clicker</title>
-  <link rel="stylesheet" href="../style.css">
+  <title>Cookie Factory Game</title>
+  <link rel="stylesheet" href="game.css">
 </head>
 <body>
 
-  <h1>🍪 Cookie Clicker</h1>
-  <h2 id="welcome"></h2>
+  <div class="game-container">
 
-  <p id="cookieCount">Cookies: 0</p>
-  <button id="cookieBtn">🍪 Click Me!</button>
+    <h2 id="welcome">Welcome!</h2>
 
-  <h3>Upgrades</h3>
-  <button id="buyCursor">Buy Cursor (10 cookies)</button>
-  <p id="cps">Cookies per second: 0</p>
+    <h1 id="cookieCount">Cookies: 0</h1>
+    <h3 id="cps">Cookies per second: 0</h3>
 
-  <button id="logoutBtn">Log Out</button>
+    <button id="cookieBtn">
+      <img src="cookie.png" alt="cookie" class="cookie-img">
+    </button>
+
+    <button id="buyCursor">Buy Cursor (10 cookies)</button>
+
+    <button id="logoutBtn" class="logout">Logout</button>
+
+  </div>
 
   <script src="game.js"></script>
 </body>

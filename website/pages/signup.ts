@@ -1,22 +1,26 @@
 import { send } from "clientUtilities";
-import { redirectIfLoggedIn } from "./auth.js";
 
-redirectIfLoggedIn();
+const usernameInput = document.getElementById("username") as HTMLInputElement;
+const passwordInput = document.getElementById("password") as HTMLInputElement;
+const signupBtn = document.getElementById("signupBtn")!;
 
-document.getElementById("signUpBtn")!.onclick = async () => {
-  const username = (document.getElementById("username") as HTMLInputElement).value;
-  const password = (document.getElementById("password") as HTMLInputElement).value;
+signupBtn.addEventListener("click", async () => {
+  const username = usernameInput.value;
+  const password = passwordInput.value;
 
-  const token = await send<string | null>("signUp", username, password);
-
-  if (token === null) {
-    alert("Username already exists");
+  if (!username || !password) {
+    alert("Please enter a username and password");
     return;
   }
 
-  // Save token so the user is considered logged in
-  localStorage.setItem("token", token);
+  const result = await send<any>("signup", { username, password });
 
-  // Redirect directly to the game page
-  window.location.href = 'game.html';
-};
+  if (!result || !result.token) {
+    alert("Signup failed");
+    return;
+  }
+
+  localStorage.setItem("token", result.token);
+
+  window.location.href = "game.html";
+});
