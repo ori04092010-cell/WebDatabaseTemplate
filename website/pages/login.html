@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Log In</title>
-  <link rel="stylesheet" href="../style.css">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <h1>Log In</h1>
+    <div class="popup">
+        <h1>Login</h1>
 
-    <input id="username" placeholder="Username">
-    <input id="password" type="password" placeholder="Password">
+        <form id="login-form">
+            <input id="username" placeholder="Username" />
+            <input id="password" type="password" placeholder="Password" />
+            <button type="submit">Log In</button>
+        </form>
 
-    <button id="logInBtn">Log In</button>
-  </div>
+        <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    </div>
 
-  <script src="../scripts/login.js"></script>
+    <script type="module" src="login.js"></script>
 </body>
 </html>

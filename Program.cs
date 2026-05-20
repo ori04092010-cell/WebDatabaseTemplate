@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;                     // ← חובה בשביל Any ו־FirstOrDefault
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Project.DatabaseUtilities;
 using Project.LoggingUtilities;
-using Project.ServerUtilities;          // ← חובה בשביל Respond
+using Project.ServerUtilities;
 
 class Program
 {
@@ -21,21 +21,18 @@ class Program
         while (true)
         {
             var request = server.WaitForRequest();
-
             Console.WriteLine($"Received a request: {request.Name}");
 
             try
             {
-                // -------------------------
                 // SIGN UP
-                // -------------------------
                 if (request.Name == "signUp")
                 {
                     var (username, password) = request.GetParams<(string, string)>();
 
                     if (database.Users.Any(u => u.Username == username))
                     {
-                        request.Respond<string?>(null!);
+                        request.Respond<string?>(null);
                         continue;
                     }
 
@@ -57,9 +54,7 @@ class Program
                     request.Respond(token);
                 }
 
-                // -------------------------
                 // LOG IN
-                // -------------------------
                 else if (request.Name == "logIn")
                 {
                     var (username, password) = request.GetParams<(string, string)>();
@@ -70,9 +65,7 @@ class Program
                     request.Respond(user?.Token);
                 }
 
-                // -------------------------
-                // GET USER DATA
-                // -------------------------
+                // GET USER
                 else if (request.Name == "getUser")
                 {
                     var token = request.GetParams<string>();
@@ -80,9 +73,7 @@ class Program
                     request.Respond(user);
                 }
 
-                // -------------------------
                 // SAVE GAME
-                // -------------------------
                 else if (request.Name == "saveGame")
                 {
                     var (token, cookies, cursors, achievements) =
@@ -111,18 +102,10 @@ class Program
     }
 }
 
-// --------------------------------------------------
-// DATABASE
-// --------------------------------------------------
-
 class Database() : DatabaseCore("database")
 {
     public DbSet<User> Users { get; set; } = default!;
 }
-
-// --------------------------------------------------
-// USER MODEL
-// --------------------------------------------------
 
 class User
 {

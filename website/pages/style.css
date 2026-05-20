@@ -1,0 +1,111 @@
+/* GLOBAL */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f3e5ab;
+}
+
+/* POPUP */
+.popup {
+    width: 320px;
+    margin: 120px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+.popup input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.popup button {
+    width: 95%;
+    padding: 10px;
+    background-color: #d48b39;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* TOP BAR */
+#topBar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+#logoutBtn {
+    padding: 10px 20px;
+    background-color: #d48b39;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* GAME LAYOUT */
+#gameContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: calc(100vh - 60px);
+    padding: 20px;
+}
+
+/* LEFT + RIGHT PANELS */
+#leftUpgrades, #rightUpgrades {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* CENTER AREA */
+#centerArea {
+    width: 60%;
+    text-align: center;
+    margin-top: -60px;
+}
+
+#welcome {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#cookieImg {
+    width: 250px;
+    cursor: pointer;
+    transition: transform 0.1s ease-out;
+}
+
+/* CLICK ANIMATION */
+.cookie-click {
+    transform: scale(0.85);
+}
+
+/* FLOATING TEXT */
+.floating-text {
+    position: absolute;
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    pointer-events: none;
+    animation: floatUp 0.8s ease-out forwards;
+    text-shadow: 2px 2px 5px #000;
+}
+
+@keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-50px); }
+}

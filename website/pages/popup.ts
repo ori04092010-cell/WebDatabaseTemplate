@@ -1,9 +1,6 @@
-import { redirectIfLoggedIn } from "./auth.js";
 import { send } from "clientUtilities";
 
-redirectIfLoggedIn();
-
-const form = document.getElementById("login-form") as HTMLFormElement;
+const form = document.getElementById("popup-login-form") as HTMLFormElement;
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
