@@ -1,88 +1,79 @@
 import { redirectIfLoggedOut } from "./auth.js";
+import { send } from "clientUtilities";
 
-redirectIfLoggedOut();
+window.addEventListener("DOMContentLoaded", () => {
 
-// ELEMENTS
-const cookieImg = document.getElementById("cookieImg") as HTMLImageElement;
-const cookieCount = document.getElementById("cookieCount") as HTMLElement;
-const cpsDisplay = document.getElementById("cps") as HTMLElement;
-const buyCursor = document.getElementById("buyCursor") as HTMLButtonElement;
-const cursorCountDisplay = document.getElementById("cursorCountDisplay") as HTMLElement;
-const usernameSpan = document.getElementById("username") as HTMLElement;
-const logoutBtn = document.getElementById("logoutBtn") as HTMLButtonElement;
+    redirectIfLoggedOut();
 
-// USERNAME
-usernameSpan.textContent = localStorage.getItem("username") || "Player";
+    const cookieImg = document.getElementById("cookieImg") as HTMLImageElement | null;
+    const cookieCount = document.getElementById("cookieCount") as HTMLElement | null;
+    const cpsDisplay = document.getElementById("cps") as HTMLElement | null;
+    const buyCursor = document.getElementById("buyCursor") as HTMLButtonElement | null;
+    const cursorCountDisplay = document.getElementById("cursorCountDisplay") as HTMLElement | null;
+    const usernameSpan = document.getElementById("username") as HTMLElement | null;
+    const logoutBtn = document.getElementById("logoutBtn") as HTMLButtonElement | null;
 
-// LOAD GAME
-let cookies = Number(localStorage.getItem("cookies") || 0);
-let cookiesPerSecond = Number(localStorage.getItem("cps") || 0);
-let cursorCost = Number(localStorage.getItem("cursorCost") || 10);
+    if (!cookieImg || !cookieCount || !cpsDisplay || !buyCursor || !cursorCountDisplay || !usernameSpan || !logoutBtn) {
+        console.error("Missing game elements");
+        return;
+    }
 
-// SAVE GAME
-function saveGame() {
-    localStorage.setItem("cookies", String(cookies));
-    localStorage.setItem("cps", String(cookiesPerSecond));
-    localStorage.setItem("cursorCost", String(cursorCost));
-}
+    const username = localStorage.getItem("username") || "Player";
+    const token = localStorage.getItem("token") || "";
+    usernameSpan.textContent = username;
 
-// UPDATE UI
-function updateUI() {
-    cookieCount.textContent = `Cookies: ${cookies}`;
-    cpsDisplay.textContent = `Cookies per second: ${cookiesPerSecond}`;
-    buyCursor.textContent = `Buy Cursor (${cursorCost} cookies)`;
-    cursorCountDisplay.textContent = `Cursors: ${cookiesPerSecond}`;
-}
+    let cookies = 0;
+    let cookiesPerSecond = 0;
+    let cursorCost = 10;
 
-// FLOATING TEXT
-function createFloatingText(text: string) {
-    const container = document.getElementById("floatingContainer")!;
-    const rect = cookieImg.getBoundingClientRect();
+    function updateUI() {
+        cookieCount.textContent = `Cookies: ${cookies}`;
+        cpsDisplay.textContent = `Cookies per second: ${cookiesPerSecond}`;
+        buyCursor.textContent = `Buy Cursor (${cursorCost} cookies)`;
+        cursorCountDisplay.textContent = `Cursors: ${cookiesPerSecond}`;
+    }
 
-    const elem = document.createElement("div");
-    elem.className = "floating-text";
-    elem.textContent = text;
+    async function loadGame() {
+        const user = await send("getUser", token);
+        if (!user) return;
 
-    elem.style.left = rect.left + rect.width / 2 + (Math.random() * 80 - 40) + "px";
-    elem.style.top = rect.top + rect.height / 2 + (Math.random() * 40 - 20) + "px";
+        cookies = user.Cookies || 0;
+        cookiesPerSecond = user.Cursors || 0;
+        cursorCost = Math.floor(10 * Math.pow(1.2, cookiesPerSecond));
 
-    container.appendChild(elem);
-    setTimeout(() => elem.remove(), 800);
-}
+        updateUI();
+    }
 
-// CLICK COOKIE
-cookieImg.addEventListener("click", () => {
-    cookies++;
-    createFloatingText("+1");
-    updateUI();
-    saveGame();
+    async function saveGame() {
+        await send("saveGame", token, cookies, cookiesPerSecond, 0);
+    }
 
-    // CLICK ANIMATION
-    cookieImg.classList.add("cookie-click");
-    setTimeout(() => cookieImg.classList.remove("cookie-click"), 80);
-});
-
-// BUY CURSOR
-buyCursor.addEventListener("click", () => {
-    if (cookies >= cursorCost) {
-        cookies -= cursorCost;
-        cookiesPerSecond++;
-        cursorCost = Math.floor(10 * Math.pow(1.05, cookiesPerSecond));
+    cookieImg.addEventListener("click", () => {
+        cookies++;
         updateUI();
         saveGame();
-    }
-});
+    });
 
-// AUTO COOKIES
-setInterval(() => {
-    cookies += cookiesPerSecond;
-    updateUI();
-    saveGame();
-}, 1000);
+    buyCursor.addEventListener("click", () => {
+        if (cookies >= cursorCost) {
+            cookies -= cursorCost;
+            cookiesPerSecond++;
+            cursorCost = Math.floor(10 * Math.pow(1.2, cookiesPerSecond));
+            updateUI();
+            saveGame();
+        }
+    });
 
-// LOGOUT
-logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    window.location.href = "login.html";
+    setInterval(() => {
+        cookies += cookiesPerSecond;
+        updateUI();
+        saveGame();
+    }, 1000);
+
+    logoutBtn.addEventListener("click", () => {
+        localStorage.clear();
+        window.location.href = "login.html";
+    });
+
+    loadGame();
 });

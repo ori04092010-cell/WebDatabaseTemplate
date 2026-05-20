@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Cookie Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="game.css">
 </head>
+
 <body>
 
     <div id="topBar">
@@ -11,26 +13,23 @@
     </div>
 
     <div id="gameContainer">
-
         <div id="leftUpgrades">
             <button id="buyCursor">Buy Cursor (10 cookies)</button>
         </div>
 
         <div id="centerArea">
-            <h2 id="welcome">Welcome, <span id="username"></span>!</h2>
+            <h2>Welcome, <span id="username"></span>!</h2>
             <h1 id="cookieCount">Cookies: 0</h1>
-            <img id="cookieImg" src="cookie.png" alt="cookie">
+            <img id="cookieImg" src="Cookie.png" class="cookie-img">
             <p id="cps">Cookies per second: 0</p>
         </div>
 
         <div id="rightUpgrades">
             <p id="cursorCountDisplay">Cursors: 0</p>
         </div>
-
     </div>
-
-    <div id="floatingContainer"></div>
 
     <script type="module" src="game.js"></script>
 </body>
+
 </html>

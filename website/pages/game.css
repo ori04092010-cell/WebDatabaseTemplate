@@ -1,14 +1,22 @@
 body {
   background-color: #f5deb3;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+#topBar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+#gameContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
-}
-
-.game-container {
-  text-align: center;
+  gap: 40px;
+  margin-top: 40px;
 }
 
 .cookie-img {
@@ -21,7 +29,8 @@ body {
   transform: scale(0.9);
 }
 
-#buyCursor, #logoutBtn {
+#buyCursor,
+#logoutBtn {
   margin-top: 20px;
   padding: 12px 20px;
   font-size: 1.2rem;

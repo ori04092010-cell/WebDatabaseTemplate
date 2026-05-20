@@ -1,11 +1,11 @@
-/* Main container centered */
 body {
-  background-image: url("Cookies.jpg"); /* or .jpg */
-  background-size: cover;       /* fills the whole screen */
-  background-position: center;  /* centers the image */
-  background-repeat: no-repeat; /* prevents tiling */
+  background-image: url("Cookie.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   margin: 0;
   padding: 0;
+  font-family: sans-serif;
 }
 
 .container {
@@ -17,23 +17,17 @@ body {
   margin-top: 80px;
 }
 
-/* Big title */
 #Factory {
   font-size: 4rem;
   font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-/* Row for the buttons */
 .button-row {
-  width: 350px; /* controls spacing between left and right */
+  width: 350px;
   display: flex;
   justify-content: space-between;
 }
 
-/* Bigger buttons */
 button {
   font-size: 1.6rem;
   padding: 14px 32px;

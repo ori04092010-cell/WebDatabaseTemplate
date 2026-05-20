@@ -1,20 +1,27 @@
 import { send } from "clientUtilities";
 
-const form = document.getElementById("popup-login-form") as HTMLFormElement;
+window.addEventListener("DOMContentLoaded", () => {
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    const form = document.getElementById("popupLoginForm") as HTMLFormElement | null;
+    if (!form) return;
 
-    const username = (document.getElementById("username") as HTMLInputElement).value;
-    const password = (document.getElementById("password") as HTMLInputElement).value;
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    const token = await send("logIn", username, password);
+        const username = (document.getElementById("username") as HTMLInputElement).value;
+        const password = (document.getElementById("password") as HTMLInputElement).value;
 
-    if (token) {
+        const token = await send("logIn", username, password);
+
+        if (!token) {
+            alert("Invalid username or password");
+            return;
+        }
+
+        localStorage.clear();
         localStorage.setItem("token", token);
         localStorage.setItem("username", username);
+
         window.location.href = "game.html";
-    } else {
-        alert("Login failed");
-    }
+    });
 });

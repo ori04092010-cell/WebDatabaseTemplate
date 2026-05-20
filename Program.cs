@@ -25,7 +25,6 @@ class Program
 
             try
             {
-                // SIGN UP
                 if (request.Name == "signUp")
                 {
                     var (username, password) = request.GetParams<(string, string)>();
@@ -53,8 +52,6 @@ class Program
 
                     request.Respond(token);
                 }
-
-                // LOG IN
                 else if (request.Name == "logIn")
                 {
                     var (username, password) = request.GetParams<(string, string)>();
@@ -62,18 +59,23 @@ class Program
                     var user = database.Users.FirstOrDefault(u =>
                         u.Username == username && u.Password == password);
 
-                    request.Respond(user?.Token);
-                }
+                    if (user == null)
+                    {
+                        request.Respond<string?>(null);
+                        continue;
+                    }
 
-                // GET USER
+                    user.Token = Guid.NewGuid().ToString();
+                    database.SaveChanges();
+
+                    request.Respond(user.Token);
+                }
                 else if (request.Name == "getUser")
                 {
                     var token = request.GetParams<string>();
                     var user = database.Users.FirstOrDefault(u => u.Token == token);
                     request.Respond(user);
                 }
-
-                // SAVE GAME
                 else if (request.Name == "saveGame")
                 {
                     var (token, cookies, cursors, achievements) =
@@ -86,7 +88,6 @@ class Program
                         user.Cookies = cookies;
                         user.Cursors = cursors;
                         user.Achievements = achievements;
-
                         database.SaveChanges();
                     }
 

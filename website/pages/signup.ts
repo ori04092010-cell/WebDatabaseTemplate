@@ -1,23 +1,34 @@
 import { redirectIfLoggedIn } from "./auth.js";
 import { send } from "clientUtilities";
 
-redirectIfLoggedIn();
+window.addEventListener("DOMContentLoaded", () => {
 
-const form = document.getElementById("signup-form") as HTMLFormElement;
+    redirectIfLoggedIn();
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    const form = document.getElementById("signupForm") as HTMLFormElement | null;
 
-    const username = (document.getElementById("username") as HTMLInputElement).value;
-    const password = (document.getElementById("password") as HTMLInputElement).value;
+    if (!form) {
+        console.error("signupForm NOT FOUND — signup.js is running on the wrong page.");
+        return;
+    }
 
-    const token = await send("signUp", username, password);
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    if (token) {
+        const username = (document.getElementById("username") as HTMLInputElement).value;
+        const password = (document.getElementById("password") as HTMLInputElement).value;
+
+        const token = await send("signUp", username, password);
+
+        if (!token) {
+            alert("Signup failed");
+            return;
+        }
+
+        localStorage.clear();
         localStorage.setItem("token", token);
         localStorage.setItem("username", username);
+
         window.location.href = "game.html";
-    } else {
-        alert("Signup failed");
-    }
+    });
 });

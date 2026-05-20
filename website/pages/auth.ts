@@ -1,10 +1,7 @@
 export function redirectIfLoggedOut() {
     const token = localStorage.getItem("token");
     if (!token) {
-        // allow game.ts to load BEFORE redirect
-        setTimeout(() => {
-            window.location.href = "popup.html";
-        }, 50);
+        window.location.href = "popup.html";
     }
 }
 
