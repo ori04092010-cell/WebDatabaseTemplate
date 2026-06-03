@@ -1,79 +1,77 @@
-import { redirectIfLoggedOut } from "./auth.js";
-import { send } from "clientUtilities";
+import { send } from "../types.js";
 
-window.addEventListener("DOMContentLoaded", () => {
+const content = document.getElementById("content") as HTMLDivElement;
+const token = localStorage.getItem("token");
 
-    redirectIfLoggedOut();
+if (!token) {
+  content.innerHTML = `
+    <p>You must log in to play.</p>
+    <a href="login.html"><button>Go to Login</button></a>
+  `;
+} else {
+  loadGame();
+}
 
-    const cookieImg = document.getElementById("cookieImg") as HTMLImageElement | null;
-    const cookieCount = document.getElementById("cookieCount") as HTMLElement | null;
-    const cpsDisplay = document.getElementById("cps") as HTMLElement | null;
-    const buyCursor = document.getElementById("buyCursor") as HTMLButtonElement | null;
-    const cursorCountDisplay = document.getElementById("cursorCountDisplay") as HTMLElement | null;
-    const usernameSpan = document.getElementById("username") as HTMLElement | null;
-    const logoutBtn = document.getElementById("logoutBtn") as HTMLButtonElement | null;
+async function loadGame() {
+  const state = await send<{ cookies: number; cursors: number } | null>(
+    "/getGameState",
+    { token }
+  );
 
-    if (!cookieImg || !cookieCount || !cpsDisplay || !buyCursor || !cursorCountDisplay || !usernameSpan || !logoutBtn) {
-        console.error("Missing game elements");
-        return;
+  if (!state) {
+    content.innerHTML = `<p>Invalid token. Please log in again.</p>`;
+    return;
+  }
+
+  let cookies = state.cookies;
+  let cursors = state.cursors;
+
+  content.innerHTML = `
+    <h2>Cookie Smasher</h2>
+    <p>Cookies: <span id="cookies">${cookies}</span></p>
+    <p>Cursors: <span id="cursors">${cursors}</span></p>
+    <p>Cookies per second: <span id="cps">${cursors}</span></p>
+
+    <button id="clickBtn">Smash Cookie</button>
+    <button id="buyCursorBtn">Buy Cursor (15 cookies)</button>
+
+    <p id="msg"></p>
+  `;
+
+  const cookiesSpan = document.getElementById("cookies")!;
+  const cursorsSpan = document.getElementById("cursors")!;
+  const cpsSpan = document.getElementById("cps")!;
+  const msg = document.getElementById("msg")!;
+
+  document.getElementById("clickBtn")!.onclick = async () => {
+    cookies++;
+    cookiesSpan.textContent = cookies.toString();
+    await save();
+  };
+
+  document.getElementById("buyCursorBtn")!.onclick = async () => {
+    if (cookies >= 15) {
+      cookies -= 15;
+      cursors++;
+      cookiesSpan.textContent = cookies.toString();
+      cursorsSpan.textContent = cursors.toString();
+      cpsSpan.textContent = cursors.toString();
+      msg.textContent = "Cursor purchased!";
+      msg.style.color = "green";
+      await save();
+    } else {
+      msg.textContent = "Not enough cookies.";
+      msg.style.color = "red";
     }
+  };
 
-    const username = localStorage.getItem("username") || "Player";
-    const token = localStorage.getItem("token") || "";
-    usernameSpan.textContent = username;
+  setInterval(async () => {
+    cookies += cursors;
+    cookiesSpan.textContent = cookies.toString();
+    await save();
+  }, 1000);
 
-    let cookies = 0;
-    let cookiesPerSecond = 0;
-    let cursorCost = 10;
-
-    function updateUI() {
-        cookieCount.textContent = `Cookies: ${cookies}`;
-        cpsDisplay.textContent = `Cookies per second: ${cookiesPerSecond}`;
-        buyCursor.textContent = `Buy Cursor (${cursorCost} cookies)`;
-        cursorCountDisplay.textContent = `Cursors: ${cookiesPerSecond}`;
-    }
-
-    async function loadGame() {
-        const user = await send("getUser", token);
-        if (!user) return;
-
-        cookies = user.Cookies || 0;
-        cookiesPerSecond = user.Cursors || 0;
-        cursorCost = Math.floor(10 * Math.pow(1.2, cookiesPerSecond));
-
-        updateUI();
-    }
-
-    async function saveGame() {
-        await send("saveGame", token, cookies, cookiesPerSecond, 0);
-    }
-
-    cookieImg.addEventListener("click", () => {
-        cookies++;
-        updateUI();
-        saveGame();
-    });
-
-    buyCursor.addEventListener("click", () => {
-        if (cookies >= cursorCost) {
-            cookies -= cursorCost;
-            cookiesPerSecond++;
-            cursorCost = Math.floor(10 * Math.pow(1.2, cookiesPerSecond));
-            updateUI();
-            saveGame();
-        }
-    });
-
-    setInterval(() => {
-        cookies += cookiesPerSecond;
-        updateUI();
-        saveGame();
-    }, 1000);
-
-    logoutBtn.addEventListener("click", () => {
-        localStorage.clear();
-        window.location.href = "login.html";
-    });
-
-    loadGame();
-});
+  async function save() {
+    await send("/saveGameState", { token, cookies, cursors });
+  }
+}

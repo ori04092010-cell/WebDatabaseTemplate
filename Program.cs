@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Project.DatabaseUtilities;
 using Project.LoggingUtilities;
@@ -21,11 +22,22 @@ class Program
         while (true)
         {
             var request = server.WaitForRequest();
-            Console.WriteLine($"Received a request: {request.Name}");
+            Console.WriteLine($"Received request: {request.Name}");
 
             try
             {
-                if (request.Name == "signUp")
+                // -------------------------
+                //  USER SYSTEM
+                // -------------------------
+
+                if (request.Name == "getUser")
+                {
+                    var token = request.GetParams<string>();
+                    var user = database.Users.FirstOrDefault(u => u.Token == token);
+                    request.Respond(user);
+                }
+
+                else if (request.Name == "signUp")
                 {
                     var (username, password) = request.GetParams<(string, string)>();
 
@@ -36,87 +48,110 @@ class Program
                     }
 
                     var token = Guid.NewGuid().ToString();
-
-                    var user = new User
-                    {
-                        Username = username,
-                        Password = password,
-                        Token = token,
-                        Cookies = 0,
-                        Cursors = 0,
-                        Achievements = 0
-                    };
-
+                    var user = new User(token, username, password);
                     database.Users.Add(user);
                     database.SaveChanges();
 
                     request.Respond(token);
                 }
+
                 else if (request.Name == "logIn")
                 {
                     var (username, password) = request.GetParams<(string, string)>();
-
                     var user = database.Users.FirstOrDefault(u =>
-                        u.Username == username && u.Password == password);
+                        u.Username == username &&
+                        u.Password == password);
 
-                    if (user == null)
-                    {
-                        request.Respond<string?>(null);
-                        continue;
-                    }
-
-                    user.Token = Guid.NewGuid().ToString();
-                    database.SaveChanges();
-
-                    request.Respond(user.Token);
+                    request.Respond(user?.Token);
                 }
-                else if (request.Name == "getUser")
+
+                // -------------------------
+                //  COOKIE CLICKER GAME
+                // -------------------------
+
+                else if (request.Name == "getGameState")
                 {
                     var token = request.GetParams<string>();
                     var user = database.Users.FirstOrDefault(u => u.Token == token);
-                    request.Respond(user);
-                }
-                else if (request.Name == "saveGame")
-                {
-                    var (token, cookies, cursors, achievements) =
-                        request.GetParams<(string, int, int, int)>();
 
+                    if (user == null)
+                    {
+                        request.Respond<object?>(null);
+                        continue;
+                    }
+
+                    request.Respond(new { user.Cookies, user.Cursors });
+                }
+
+                else if (request.Name == "saveGameState")
+                {
+                    var (token, cookies, cursors) = request.GetParams<(string, int, int)>();
                     var user = database.Users.FirstOrDefault(u => u.Token == token);
 
                     if (user != null)
                     {
                         user.Cookies = cookies;
                         user.Cursors = cursors;
-                        user.Achievements = achievements;
                         database.SaveChanges();
                     }
 
                     request.Respond(true);
                 }
+
+                // -------------------------
+                //  UNKNOWN REQUEST
+                // -------------------------
+
+                else
+                {
+                    request.SetStatusCode(400);
+                }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
                 request.SetStatusCode(500);
-                Log.WriteException(exception);
+                Log.WriteException(ex);
             }
         }
     }
 }
+
+// -------------------------
+//  DATABASE
+// -------------------------
 
 class Database() : DatabaseCore("database")
 {
     public DbSet<User> Users { get; set; } = default!;
 }
 
+// -------------------------
+//  USER MODEL (EF SAFE)
+// -------------------------
+
 class User
 {
     public int Id { get; set; }
 
-    public string Username { get; set; } = "";
-    public string Password { get; set; } = "";
+    [JsonIgnore]
     public string Token { get; set; } = "";
 
-    public int Cookies { get; set; } = 0;
-    public int Cursors { get; set; } = 0;
-    public int Achievements { get; set; } = 0;
+    public string Username { get; set; } = "";
+
+    [JsonIgnore]
+    public string Password { get; set; } = "";
+
+    public int Cookies { get; set; }
+    public int Cursors { get; set; }
+
+    public User() {}
+
+    public User(string token, string username, string password)
+    {
+        Token = token;
+        Username = username;
+        Password = password;
+        Cookies = 0;
+        Cursors = 0;
+    }
 }

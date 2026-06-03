@@ -1,35 +1,13 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Cookie Smasher</title>
+  </head>
 
-<head>
-    <title>Cookie Game</title>
-    <link rel="stylesheet" href="game.css">
-</head>
-
-<body>
-
-    <div id="topBar">
-        <button id="logoutBtn">Logout</button>
-    </div>
-
-    <div id="gameContainer">
-        <div id="leftUpgrades">
-            <button id="buyCursor">Buy Cursor (10 cookies)</button>
-        </div>
-
-        <div id="centerArea">
-            <h2>Welcome, <span id="username"></span>!</h2>
-            <h1 id="cookieCount">Cookies: 0</h1>
-            <img id="cookieImg" src="Cookie.png" class="cookie-img">
-            <p id="cps">Cookies per second: 0</p>
-        </div>
-
-        <div id="rightUpgrades">
-            <p id="cursorCountDisplay">Cursors: 0</p>
-        </div>
-    </div>
+  <body>
+    <div id="content"></div>
 
     <script type="module" src="game.js"></script>
-</body>
-
+  </body>
 </html>

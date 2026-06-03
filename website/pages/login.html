@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Log In</title>
+  </head>
 
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+  <body>
+    <div id="boxDiv">
+      <h1>Log In</h1>
 
-<body>
+      <table>
+        <tr>
+          <td>Username:</td>
+          <td><input id="usernameInput" /></td>
+        </tr>
+        <tr>
+          <td>Password:</td>
+          <td><input id="passwordInput" type="password" /></td>
+        </tr>
+      </table>
 
-    <div class="popup">
-        <h1>Login</h1>
-
-        <form id="loginForm">
-            <input id="username" placeholder="Username" />
-            <input id="password" type="password" placeholder="Password" />
-            <button type="submit">Log In</button>
-        </form>
-
-        <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+      <button id="submitButton">Submit</button>
+      <div id="errorDiv"></div>
     </div>
 
-    <script type="module" src="login.js"></script>
-</body>
-
+    <script type="module" src="logIn.js"></script>
+  </body>
 </html>

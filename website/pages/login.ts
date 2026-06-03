@@ -1,27 +1,22 @@
-import { send } from "clientUtilities";
+import { send } from "../types.js";
 
-window.addEventListener("DOMContentLoaded", () => {
+const usernameInput = document.getElementById("usernameInput") as HTMLInputElement;
+const passwordInput = document.getElementById("passwordInput") as HTMLInputElement;
+const submitButton = document.getElementById("submitButton") as HTMLButtonElement;
+const errorDiv = document.getElementById("errorDiv") as HTMLDivElement;
 
-    const form = document.getElementById("loginForm") as HTMLFormElement | null;
-    if (!form) return;
+submitButton.onclick = async () => {
+  const token = await send<string | null>(
+    "logIn",
+    usernameInput.value,
+    passwordInput.value
+  );
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+  if (token == null) {
+    errorDiv.innerText = "Invalid username or password.";
+    return;
+  }
 
-        const username = (document.getElementById("username") as HTMLInputElement).value;
-        const password = (document.getElementById("password") as HTMLInputElement).value;
-
-        const token = await send("logIn", username, password);
-
-        if (!token) {
-            alert("Invalid username or password");
-            return;
-        }
-
-        localStorage.clear();
-        localStorage.setItem("token", token);
-        localStorage.setItem("username", username);
-
-        window.location.href = "game.html";
-    });
-});
+  localStorage.setItem("token", token);
+  location.href = "index.html";
+};

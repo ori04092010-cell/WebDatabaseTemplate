@@ -1,34 +1,28 @@
-import { redirectIfLoggedIn } from "./auth.js";
-import { send } from "clientUtilities";
+import { send } from "../types.js";
 
-window.addEventListener("DOMContentLoaded", () => {
+const usernameInput = document.getElementById("usernameInput") as HTMLInputElement;
+const passwordInput = document.getElementById("passwordInput") as HTMLInputElement;
+const confirmInput = document.getElementById("confirmInput") as HTMLInputElement;
+const submitButton = document.getElementById("submitButton") as HTMLButtonElement;
+const errorDiv = document.getElementById("errorDiv") as HTMLDivElement;
 
-    redirectIfLoggedIn();
+submitButton.onclick = async () => {
+  if (passwordInput.value !== confirmInput.value) {
+    errorDiv.innerText = "Passwords do not match.";
+    return;
+  }
 
-    const form = document.getElementById("signupForm") as HTMLFormElement | null;
+  const token = await send<string | null>(
+    "signUp",
+    usernameInput.value,
+    passwordInput.value
+  );
 
-    if (!form) {
-        console.error("signupForm NOT FOUND — signup.js is running on the wrong page.");
-        return;
-    }
+  if (token == null) {
+    errorDiv.innerText = "A user with this username already exists.";
+    return;
+  }
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const username = (document.getElementById("username") as HTMLInputElement).value;
-        const password = (document.getElementById("password") as HTMLInputElement).value;
-
-        const token = await send("signUp", username, password);
-
-        if (!token) {
-            alert("Signup failed");
-            return;
-        }
-
-        localStorage.clear();
-        localStorage.setItem("token", token);
-        localStorage.setItem("username", username);
-
-        window.location.href = "game.html";
-    });
-});
+  localStorage.setItem("token", token);
+  location.href = "index.html";
+};
