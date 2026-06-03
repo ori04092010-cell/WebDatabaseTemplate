@@ -1,4 +1,5 @@
-import { send } from "../types.js";
+import { send } from "clientUtilities";
+import { create } from "componentUtilities";
 
 const content = document.getElementById("content") as HTMLDivElement;
 const token = localStorage.getItem("token");
@@ -14,8 +15,8 @@ if (!token) {
 
 async function loadGame() {
   const state = await send<{ cookies: number; cursors: number } | null>(
-    "/getGameState",
-    { token }
+    "getGameState",
+    token
   );
 
   if (!state) {
@@ -26,17 +27,26 @@ async function loadGame() {
   let cookies = state.cookies;
   let cursors = state.cursors;
 
-  content.innerHTML = `
-    <h2>Cookie Smasher</h2>
-    <p>Cookies: <span id="cookies">${cookies}</span></p>
-    <p>Cursors: <span id="cursors">${cursors}</span></p>
-    <p>Cookies per second: <span id="cps">${cursors}</span></p>
+  // content.innerHTML = `
+  //   <h2>Cookie Smasher</h2>
+  //   <p>Cookies: <span id="cookies">${cookies}</span></p>
+  //   <p>Cursors: <span id="cursors">${cursors}</span></p>
+  //   <p>Cookies per second: <span id="cps">${cursors}</span></p>
 
-    <button id="clickBtn">Smash Cookie</button>
-    <button id="buyCursorBtn">Buy Cursor (15 cookies)</button>
+  //   <button id="clickBtn">Smash Cookie</button>
+  //   <button id="buyCursorBtn">Buy Cursor (15 cookies)</button>
 
-    <p id="msg"></p>
-  `;
+  //   <p id="msg"></p>
+  // `;
+
+  content.append(
+    create("h2", { innerText: "Cookie Smasher" }),
+    create("p", { innerText: "Cookies: " },
+      create("span", { id: "cookies", innerText: String(cookies) })
+    ),
+    
+
+  );
 
   const cookiesSpan = document.getElementById("cookies")!;
   const cursorsSpan = document.getElementById("cursors")!;
@@ -72,6 +82,6 @@ async function loadGame() {
   }, 1000);
 
   async function save() {
-    await send("/saveGameState", { token, cookies, cursors });
+    await send("saveGameState", token, cookies, cursors);
   }
 }

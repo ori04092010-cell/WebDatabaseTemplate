@@ -1,4 +1,4 @@
-import { send } from "../types.js";
+import { send } from "clientUtilities";
 
 const usernameInput = document.getElementById("usernameInput") as HTMLInputElement;
 const passwordInput = document.getElementById("passwordInput") as HTMLInputElement;
@@ -24,5 +24,5 @@ submitButton.onclick = async () => {
   }
 
   localStorage.setItem("token", token);
-  location.href = "index.html";
+  location.href = "game.html";
 };
