@@ -5,6 +5,7 @@ const passwordInput = document.getElementById("passwordInput") as HTMLInputEleme
 const confirmInput = document.getElementById("confirmInput") as HTMLInputElement;
 const submitButton = document.getElementById("submitButton") as HTMLButtonElement;
 const errorDiv = document.getElementById("errorDiv") as HTMLDivElement;
+const signUpReturn = document.getElementById("signUpReturn") as HTMLButtonElement;
 
 submitButton.onclick = async () => {
   if (passwordInput.value !== confirmInput.value) {
@@ -26,3 +27,7 @@ submitButton.onclick = async () => {
   localStorage.setItem("token", token);
   location.href = "game.html";
 };
+
+signUpReturn.onclick = async () => {
+  location.href = "index.html"
+}

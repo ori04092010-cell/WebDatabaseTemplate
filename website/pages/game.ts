@@ -3,7 +3,7 @@ import { create } from "componentUtilities";
 
 const content = document.getElementById("content") as HTMLDivElement;
 const token = localStorage.getItem("token");
-
+const buyCursorBtn = document.getElementById("buyCursorBtn") as HTMLButtonElement;
 if (!token) {
   content.innerHTML = `
     <p>You must log in to play.</p>
@@ -27,25 +27,21 @@ async function loadGame() {
   let cookies = state.cookies;
   let cursors = state.cursors;
 
-  // content.innerHTML = `
-  //   <h2>Cookie Smasher</h2>
-  //   <p>Cookies: <span id="cookies">${cookies}</span></p>
-  //   <p>Cursors: <span id="cursors">${cursors}</span></p>
-  //   <p>Cookies per second: <span id="cps">${cursors}</span></p>
-
-  //   <button id="clickBtn">Smash Cookie</button>
-  //   <button id="buyCursorBtn">Buy Cursor (15 cookies)</button>
-
-  //   <p id="msg"></p>
-  // `;
-
   content.append(
     create("h2", { innerText: "Cookie Smasher" }),
     create("p", { innerText: "Cookies: " },
       create("span", { id: "cookies", innerText: String(cookies) })
     ),
-    
-
+    create("p", { innerText: "Cursors: " },
+      create("span", { id: "cursors", innerText: String(cursors) })
+    ),
+    create("p", { innerText: "Cookies per second: " },
+      create("span", { id: "cps", innerText: String(cursors) })
+    ),
+    create("button", { id: "clickBtn", innerText: "Smash Cookie" }),
+    create("button", { id: "buyCursorBtn", innerText: String("Buy Cursor (" + String(Math.round(1.04 ** cursors)) + ")") }),
+    create("button", { id: "LogOutBtn", innerText: "Log Out" }),
+    create("p", { id: "msg" })
   );
 
   const cookiesSpan = document.getElementById("cookies")!;
@@ -59,9 +55,14 @@ async function loadGame() {
     await save();
   };
 
+  document.getElementById("LogOutBtn")!.onclick = async () => {
+    cookiesSpan.textContent = cookies.toString();
+    location.href = "index.html"
+  }
+
   document.getElementById("buyCursorBtn")!.onclick = async () => {
-    if (cookies >= 15) {
-      cookies -= 15;
+    if (cookies >= Math.round(1.04 ** cursors)) {
+      cookies -= Math.round(1.04 ** cursors);
       cursors++;
       cookiesSpan.textContent = cookies.toString();
       cursorsSpan.textContent = cursors.toString();
@@ -69,6 +70,7 @@ async function loadGame() {
       msg.textContent = "Cursor purchased!";
       msg.style.color = "green";
       await save();
+
     } else {
       msg.textContent = "Not enough cookies.";
       msg.style.color = "red";

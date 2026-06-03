@@ -4,7 +4,7 @@ const usernameInput = document.getElementById("usernameInput") as HTMLInputEleme
 const passwordInput = document.getElementById("passwordInput") as HTMLInputElement;
 const submitButton = document.getElementById("submitButton") as HTMLButtonElement;
 const errorDiv = document.getElementById("errorDiv") as HTMLDivElement;
-
+const LoginReturnButton = document.getElementById("LoginReturnButton") as HTMLButtonElement;
 submitButton.onclick = async () => {
   const token = await send<string | null>(
     "logIn",
@@ -20,3 +20,6 @@ submitButton.onclick = async () => {
   localStorage.setItem("token", token);
   location.href = "game.html";
 };
+LoginReturnButton.onclick = async () => {
+  location.href = "index.html"
+}
