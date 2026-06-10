@@ -28,6 +28,9 @@ submitButton.onclick = async () => {
   location.href = "game.html";
 };
 
+console.log("script is running")
 signUpReturn.onclick = async () => {
+
+  console.log("function is running")
   location.href = "index.html"
 }

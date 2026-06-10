@@ -3,12 +3,20 @@
   <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link rel="stylesheet" href="../style.css">
   </head>
 
   <body>
-    <h1>Welcome</h1>
+    <div id="boxDiv">
+      <h2>Welcome</h2>
 
-    <a href="signup.html">Sign Up</a><br>
-    <a href="login.html">Log In</a><br>
+      <button onclick="location.href='signup.html'" id="submitButton">
+        Sign Up
+      </button>
+
+      <button onclick="location.href='login.html'" class="secondary">
+        Log In
+      </button>
+    </div>
   </body>
 </html>

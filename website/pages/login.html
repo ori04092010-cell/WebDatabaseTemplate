@@ -2,30 +2,28 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
   <title>Log In</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
   <div id="boxDiv">
-    <h1>Log In</h1>
+    <h2>Log In</h2>
 
-    <table>
-      <tr>
-        <td>Username:</td>
-        <td><input id="usernameInput" /></td>
-      </tr>
-      <tr>
-        <td>Password:</td>
-        <td><input id="passwordInput" type="password" /></td>
-      </tr>
-    </table>
+    <label for="usernameInput">Username</label>
+    <input id="usernameInput" type="text" />
+
+    <label for="passwordInput">Password</label>
+    <input id="passwordInput" type="password" />
+
+    <div id="errorDiv"></div>
 
     <button id="submitButton">Submit</button>
-    <button id="LoginReturnButton">Return</button>
-    <div id="errorDiv"></div>
+    <button id="LoginReturnButton" class="secondary">Return</button>
   </div>
 
-  <script type="module" src="logIn.js"></script>
+  <script type="module" src="login.js"></script>
 </body>
 
 </html>

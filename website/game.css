@@ -1,0 +1,105 @@
+/* Background */
+body {
+  margin: 0;
+  height: 100vh;
+  background: #fff8ee;
+  font-family: "Segoe UI", Arial, sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logout button */
+#LogOutButton {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 10px 18px;
+  background: #d28b47;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#LogOutButton:hover {
+  background: #b8743a;
+}
+
+/* Title */
+h2 {
+  margin-top: 60px;
+  color: #5a3a1e;
+  font-size: 32px;
+}
+
+/* --- MAIN LAYOUT: LEFT + RIGHT --- */
+#gameWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 900px;
+  margin-top: 20px;
+}
+
+/* LEFT SIDE (cookie + stats) */
+#leftSide {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Clickable cookie */
+#clickButton {
+  width: 220px;
+  height: 220px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+#clickButton:active {
+  transform: scale(0.9);
+}
+
+/* Stats */
+#leftStats p {
+  font-size: 20px;
+  color: #5a3a1e;
+  margin: 5px 0;
+}
+
+/* RIGHT SIDE (shop) */
+#rightSide {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#buyCursorButton {
+  padding: 12px 20px;
+  background: #d28b47;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+#buyCursorButton:hover {
+  background: #b8743a;
+}
+
+#buyCursorButton:active {
+  transform: scale(0.95);
+}
+
+#messageP {
+  margin-top: 15px;
+  color: #5a3a1e;
+  font-size: 18px;
+}

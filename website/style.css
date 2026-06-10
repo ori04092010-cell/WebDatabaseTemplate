@@ -1,0 +1,101 @@
+/* Cookie-themed background */
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: url("cookie-background.jpg"), #f3d7b6;
+  background-size: cover;
+  background-position: center;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+/* Shared container for Log In + Sign Up */
+#boxDiv {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Titles */
+#boxDiv h1,
+#boxDiv h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #5a3a1e;
+}
+
+/* Labels */
+#boxDiv label {
+  margin-top: 10px;
+  font-weight: 600;
+  color: #5a3a1e;
+}
+
+/* Inputs — FIXED */
+#boxDiv input {
+  width: 80%;          /* shorter input bar */
+  align-self: center;  /* centers the input */
+  padding: 10px;
+  margin-top: 6px;
+  border: 2px solid #d8b48a;
+  border-radius: 8px;
+  background: #fffaf3;
+  font-size: 15px;
+}
+
+#boxDiv input:focus {
+  border-color: #b5835a;
+  background: #fff3e0;
+  outline: none;
+}
+
+/* Primary button */
+#submitButton {
+  width: 100%;
+  padding: 12px;
+  margin-top: 14px;
+  background: #d28b47;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#submitButton:hover {
+  background: #b8743a;
+}
+
+/* Secondary button (Return) */
+.secondary,
+#LoginReturnButton {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #f0e0c9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.secondary:hover,
+#LoginReturnButton:hover {
+  background: #e2d1b8;
+}
+
+/* Error message */
+#errorDiv {
+  color: #b91c1c;
+  min-height: 20px;
+  margin-top: 10px;
+  text-align: center;
+}
+

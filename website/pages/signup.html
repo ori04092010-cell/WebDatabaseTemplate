@@ -2,34 +2,35 @@
 <html>
 
 <head>
-  <title>Sign Up</title>
+  <meta charset="UTF-8">
+  <title>Signup</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
+
 
 <body>
   <div id="boxDiv">
-    <h1>Sign Up</h1>
+    <h2>Join Cookie Smash!</h2>
 
-    <table>
-      <tr>
-        <td>Username:</td>
-        <td><input id="usernameInput" /></td>
-      </tr>
-      <tr>
-        <td>Password:</td>
-        <td><input id="passwordInput" type="password" /></td>
-      </tr>
-      <tr>
-        <td>Confirm:</td>
-        <td><input id="confirmInput" type="password" /></td>
-      </tr>
-    </table>
+    <label for="usernameInput">Username</label>
+    <input id="usernameInput" type="text" />
 
-    <button id="submitButton">Submit</button>
-    <button id="signUpReturn">Return</button>
+    <label for="passwordInput">Password</label>
+    <input id="passwordInput" type="password" />
+
+    <label for="confirmInput">Confirm Password</label>
+    <input id="confirmInput" type="password" />
+
     <div id="errorDiv"></div>
+
+    <button id="submitButton">Start Smashing!</button>
+    <button id="signUpReturn" class="secondary">Return</button>
   </div>
 
-  <script type="module" src="signUp.js"></script>
+
+  <script type="module" src="signup.js"></script>
 </body>
+
+
 
 </html>
