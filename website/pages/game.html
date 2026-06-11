@@ -3,23 +3,29 @@
   <button id="LogOutButton">Log Out</button>
 
   <h2>Cookie Smasher</h2>
+  <link rel="stylesheet" href="../game.css">
 
   <div id="gameWrapper">
 
     <!-- LEFT SIDE -->
     <div id="leftSide">
+      <div id="CookieBase">
+      <p>Cookies: <span id="cookiesSpan">0</span></p>
+        <p>Cookies per second: <span id="cpsSpan">0</span></p>  
       <img id="clickButton" src="../cookie.png" alt="Cookie">
-
+        </div>
       <div id="leftStats">
-        <p>Cookies: <span id="cookiesSpan">0</span></p>
-        <p>Cursors: <span id="cursorsSpan">0</span></p>
-        <p>Cookies per second: <span id="cpsSpan">0</span></p>
       </div>
     </div>
 
     <!-- RIGHT SIDE -->
     <div id="rightSide">
+      <img id="shopTitle"src="../Image.png" alt="Shop">
+      <p>Cursors: <span id="cursorsSpan">0</span></p>
       <button id="buyCursorButton">Buy Cursor</button>
+      <p>Multiplier: <span id="MultiplierSpan">1</p>
+      <button id="buymultiplierButton">Buy Multiplier</button>
+      
       <p id="messageP"></p>
     </div>
 

@@ -80,18 +80,19 @@ class Program
                         continue;
                     }
 
-                    request.Respond(new { user.Cookies, user.Cursors });
+                    request.Respond(new { user.Cookies, user.Cursors,user.Multiplier });
                 }
 
                 else if (request.Name == "saveGameState")
                 {
-                    var (token, cookies, cursors) = request.GetParams<(string, int, int)>();
+                    var (token, cookies, cursors,Multiplier) = request.GetParams<(string, int, int,int)>();
                     var user = database.Users.FirstOrDefault(u => u.Token == token);
 
                     if (user != null)
                     {
                         user.Cookies = cookies;
                         user.Cursors = cursors;
+                        user.Multiplier = Multiplier;
                         database.SaveChanges();
                     }
 
@@ -144,6 +145,8 @@ class User
     public int Cookies { get; set; }
     public int Cursors { get; set; }
 
+    public int Multiplier {get; set;}
+
     public User() {}
 
     public User(string token, string username, string password)
@@ -153,5 +156,6 @@ class User
         Password = password;
         Cookies = 0;
         Cursors = 0;
+        Multiplier = 1;
     }
 }

@@ -1,105 +1,106 @@
-/* Background */
 body {
   margin: 0;
+  padding: 0;
   height: 100vh;
-  background: #fff8ee;
-  font-family: "Segoe UI", Arial, sans-serif;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
+  background: #f0e6d2; /* fallback */
 }
 
-/* Logout button */
-#LogOutButton {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  padding: 10px 18px;
-  background: #d28b47;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#LogOutButton:hover {
-  background: #b8743a;
-}
-
-/* Title */
-h2 {
-  margin-top: 60px;
-  color: #5a3a1e;
-  font-size: 32px;
-}
-
-/* --- MAIN LAYOUT: LEFT + RIGHT --- */
+/* Wrapper spans full width */
 #gameWrapper {
   display: flex;
-  justify-content: space-between;
-  width: 90%;
-  max-width: 900px;
-  margin-top: 20px;
+  width: 100%;
+  height: 100%;
 }
 
-/* LEFT SIDE (cookie + stats) */
+/* LEFT SIDE — 65% width, cookie brown */
 #leftSide {
-  width: 50%;
+  width: 65%;
+  background-color: #c49a6c; /* cookie brown */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#rightSide {
+  position: relative;
+  width: 35%;
+  height: 100vh;
+  background: linear-gradient(to bottom, #b22222 0%, #ffffff 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Clickable cookie */
+/* Shop title banner */
+#shopTitle {
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+
+
+#leftSide {
+  width: 65%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* keeps UI readable */
+  filter: brightness(0.85) contrast(0.95);
+}
+
+
+/* Cookies text */
+#cookiesSpan {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* CPS under cookies, smaller */
+#cpsSpan {
+  font-size: 16px;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+
 #clickButton {
-  width: 220px;
-  height: 220px;
+  width: 300px;
   cursor: pointer;
   transition: transform 0.1s ease;
+  filter: drop-shadow(0 0 15px #ffcc66);
+  /* margin-top: -50; */
+
 }
 
 #clickButton:active {
-  transform: scale(0.9);
+  transform: scale(0.9); /* cookie shrinks slightly when clicked */
 }
 
-/* Stats */
-#leftStats p {
-  font-size: 20px;
-  color: #5a3a1e;
-  margin: 5px 0;
+#LogOutButton {
+  width: 140px;
 }
-
-/* RIGHT SIDE (shop) */
-#rightSide {
-  width: 50%;
+#cookiesSpan,
+#cpsSpan,
+#cursorsSpan {
+  font-weight: 900;
+  color: white;
+  text-shadow:
+    0 0 4px black,
+    0 0 8px black,
+    0 0 12px black;
+}
+#CookieBase {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;   /* מרכז אופקית */
+  justify-content: center;
+  gap: 10px;             /* רווח בין טקסטים לכפתור */
+  position: relative;
+  top: -50px;            /* הזזה למעלה */
 }
 
-#buyCursorButton {
-  padding: 12px 20px;
-  background: #d28b47;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-}
 
-#buyCursorButton:hover {
-  background: #b8743a;
-}
-
-#buyCursorButton:active {
-  transform: scale(0.95);
-}
-
-#messageP {
-  margin-top: 15px;
-  color: #5a3a1e;
-  font-size: 18px;
-}
