@@ -11,7 +11,7 @@ const messageP = get("p", "messageP");
 const multiplierSpan = get("span", "multiplierSpan")
 const BuymultiplierButton = get("button", "buymultiplierButton")
 const token = localStorage.getItem("token");
-let MultiplierCost = 100;
+
 if (!token) {
   document.body.prepend(`
     <p>You must log in to play.</p>
@@ -22,7 +22,7 @@ if (!token) {
 }
 
 async function loadGame() {
-  const state = await send<{ cookies: number; cursors: number; multiplier:number;} | null>(
+  const state = await send<{ cookies: number; cursors: number; multiplier: number; MultiplierCost: number; CursorCost: number; } | null>(
     "getGameState",
     token
   );
@@ -34,9 +34,11 @@ async function loadGame() {
   let multiplier = state.multiplier;
   let cookies = state.cookies;
   let cursors = state.cursors;
+  let MultiplierCost = state.MultiplierCost;
+  let CursorCost = state.CursorCost;
   UpdateUi();
   clickButton.onclick = async () => {
-    cookies++;
+    cookies = cookies + multiplier;
     cookiesSpan.textContent = cookies.toString();
     await save();
     clickButton.style.filter = "drop-shadow(0 0 25px #ffd27f)";
@@ -51,20 +53,22 @@ async function loadGame() {
     location.href = "index.html"
   }
   function UpdateUi() {
-    console.log("hello");
     cookiesSpan.textContent = cookies.toString();
     cursorsSpan.textContent = cursors.toString();
-    cpsSpan.textContent = cursors.toString();
+    cpsSpan.textContent = String(multiplier * cursors);
     messageP.textContent = "Cursor purchased!";
     messageP.style.color = "green";
-    buyCursorButton.innerText = `Buy Cursor (${Math.round(1.04 ** cursors)})`;
+
+    buyCursorButton.innerText = `Buy Cursor (${Math.round(1.5 * CursorCost)})`;
     multiplierSpan.textContent = multiplier.toString();
+    BuymultiplierButton.innerText = `Multiplier(${Math.round(5 * MultiplierCost)})`;
 
   }
   buyCursorButton.onclick = async () => {
-    if (cookies >= Math.round(1.04 ** cursors)) {
-      cookies -= Math.round(1.04 ** cursors);
+    if (cookies >= Math.round(1.5 * CursorCost)) {
+      cookies -= Math.round(1.5 * CursorCost);
       cursors++;
+      CursorCost = Math.round(1.5 * CursorCost);
       UpdateUi();
       await save();
     } else {
@@ -73,12 +77,12 @@ async function loadGame() {
     }
   };
   BuymultiplierButton.onclick = async () => {
-    if (cookies >= Math.round(2.5 * MultiplierCost)) {
-      cookies -= Math.round(MultiplierCost*2);
+    if (cookies >= Math.round(5 * MultiplierCost)) {
+      cookies -= Math.round(MultiplierCost * 5);
       multiplier++;
+      MultiplierCost = Math.round(5 * MultiplierCost);
       UpdateUi()
       await save()
-      MultiplierCost = Math.round(2.5*MultiplierCost);
     } else {
       messageP.textContent = "Not enough cookies.";
       messageP.style.color = "red";
@@ -88,12 +92,12 @@ async function loadGame() {
 
 
   setInterval(async () => {
-    cookies += cursors;
+    cookies += cursors * multiplier;
     cookiesSpan.textContent = cookies.toString();
     await save();
   }, 1000);
 
   async function save() {
-    await send("saveGameState", token, cookies, cursors,multiplier);
+    await send("saveGameState", token, cookies, cursors, multiplier, MultiplierCost, CursorCost);
   }
 }

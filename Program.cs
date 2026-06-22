@@ -80,12 +80,12 @@ class Program
                         continue;
                     }
 
-                    request.Respond(new { user.Cookies, user.Cursors,user.Multiplier });
+                    request.Respond(new { user.Cookies, user.Cursors, user.Multiplier, user.MultiplierCost, user.CursorCost });
                 }
 
                 else if (request.Name == "saveGameState")
                 {
-                    var (token, cookies, cursors,Multiplier) = request.GetParams<(string, int, int,int)>();
+                    var (token, cookies, cursors, Multiplier, multipliercost, cursorcost) = request.GetParams<(string, int, int, int, int, int)>();
                     var user = database.Users.FirstOrDefault(u => u.Token == token);
 
                     if (user != null)
@@ -93,6 +93,8 @@ class Program
                         user.Cookies = cookies;
                         user.Cursors = cursors;
                         user.Multiplier = Multiplier;
+                        user.MultiplierCost = multipliercost;
+                        user.CursorCost = cursorcost;
                         database.SaveChanges();
                     }
 
@@ -145,9 +147,13 @@ class User
     public int Cookies { get; set; }
     public int Cursors { get; set; }
 
-    public int Multiplier {get; set;}
+    public int Multiplier { get; set; }
 
-    public User() {}
+    public int MultiplierCost { get; set; }
+
+    public int CursorCost { get; set; }
+
+    public User() { }
 
     public User(string token, string username, string password)
     {
@@ -157,5 +163,7 @@ class User
         Cookies = 0;
         Cursors = 0;
         Multiplier = 1;
+        MultiplierCost = 100;
+        CursorCost = 10;
     }
 }

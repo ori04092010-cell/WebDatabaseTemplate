@@ -7,36 +7,38 @@ const submitButton = document.getElementById("submitButton") as HTMLButtonElemen
 const errorDiv = document.getElementById("errorDiv") as HTMLDivElement;
 const signUpReturn = document.getElementById("signUpReturn") as HTMLButtonElement;
 
-submitButton.onclick = async function(): Promise<void> {
-  
-  if (passwordInput.value === null || confirmInput.value === null)
-  {
-    errorDiv.innerText = "Please enter a password."
+submitButton.onclick = async function (): Promise<void> {
+
+  if (usernameInput.value === "") {
+    errorDiv.innerText = "Username cannot be empty";
     return;
   }
-  if (passwordInput.value !== confirmInput.value) {
+
+  if (passwordInput.value === "" || confirmInput.value === "") {
+    errorDiv.innerText = "Please enter a password.";
+    return;
+  }
+  else if (passwordInput.value !== confirmInput.value) {
     errorDiv.innerText = "Passwords do not match.";
     return;
   }
- else if(passwordInput.value !== null || confirmInput.value !== null)
-  {
-  const token = await send<string | null>(
-    "signUp",
-    usernameInput.value,
-    passwordInput.value
-  );
+  else if (passwordInput.value !== "" && passwordInput.value == confirmInput.value) {
+    const token = await send<string | null>(
+      "signUp",
+      usernameInput.value,
+      passwordInput.value
+    );
 
-  if (token == null) {
-    errorDiv.innerText = "A user with this username already exists.";
-    return;
+    if (token == null) {
+      errorDiv.innerText = "A user with this username already exists.";
+      return;
+    }
+
+    localStorage.setItem("token", token);
+    location.href = "game.html";
   }
-
-  localStorage.setItem("token", token);
-  location.href = "game.html";
-}
 };
 
-console.log("script is running")
 signUpReturn.onclick = async () => {
 
   console.log("function is running")
