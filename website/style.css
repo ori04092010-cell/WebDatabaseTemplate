@@ -18,7 +18,7 @@ body {
   background: white;
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   width: 350px;
   display: flex;
   flex-direction: column;
@@ -41,8 +41,10 @@ body {
 
 /* Inputs — FIXED */
 #boxDiv input {
-  width: 80%;          /* shorter input bar */
-  align-self: center;  /* centers the input */
+  width: 80%;
+  /* shorter input bar */
+  align-self: center;
+  /* centers the input */
   padding: 10px;
   margin-top: 6px;
   border: 2px solid #d8b48a;
@@ -98,4 +100,3 @@ body {
   margin-top: 10px;
   text-align: center;
 }
-

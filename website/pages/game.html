@@ -1,31 +1,36 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Cookie Smasher</title>
+  <link rel="stylesheet" href="../game.css">
+  <button id="LogOutButton">Cookie Smasher</button>
+</head>
+
+
 <body>
 
-  <button id="LogOutButton">Log Out</button>
-
-  <h2>Cookie Smasher</h2>
-  <link rel="stylesheet" href="../game.css">
 
   <div id="gameWrapper">
 
     <!-- LEFT SIDE -->
     <div id="leftSide">
       <div id="CookieBase">
-      <p>Cookies: <span id="cookiesSpan">0</span></p>
-        <p>Cookies per second: <span id="cpsSpan">0</span></p>  
-      <img id="clickButton" src="../cookie.png" alt="Cookie">
-        </div>
+        <p>Cookies: <span id="cookiesSpan">0</span></p>
+        <p>Cookies per second: <span id="cpsSpan">0</span></p>
+        <img id="clickButton" src="../cookie.png" alt="Cookie">
+      </div>
       <div id="leftStats">
       </div>
     </div>
 
     <!-- RIGHT SIDE -->
     <div id="rightSide">
-      <img id="shopTitle"src="../Image.png" alt="Shop">
+      <img id="shopTitle" src="../Image.png" alt="Shop">
       <p>Cursors: <span id="cursorsSpan">0</span></p>
       <button id="buyCursorButton">Buy Cursor</button>
-      <p>Multiplier: <span id="MultiplierSpan">1</p>
+      <p>Multiplier: <span id="multiplierSpan">1</p>
       <button id="buymultiplierButton">Buy Multiplier</button>
-      
+
       <p id="messageP"></p>
     </div>
 
@@ -33,3 +38,5 @@
 
   <script type="module" src="game.js"></script>
 </body>
+
+</html>

@@ -4,7 +4,8 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #f0e6d2; /* fallback */
+  background: #f0e6d2;
+  /* fallback */
 }
 
 /* Wrapper spans full width */
@@ -17,7 +18,8 @@ body {
 /* LEFT SIDE — 65% width, cookie brown */
 #leftSide {
   width: 65%;
-  background-color: #c49a6c; /* cookie brown */
+  background-color: #c49a6c;
+  /* cookie brown */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,12 +79,11 @@ body {
 }
 
 #clickButton:active {
-  transform: scale(0.9); /* cookie shrinks slightly when clicked */
+  transform: scale(0.9);
+  /* cookie shrinks slightly when clicked */
 }
 
-#LogOutButton {
-  width: 140px;
-}
+
 #cookiesSpan,
 #cpsSpan,
 #cursorsSpan {
@@ -93,14 +94,43 @@ body {
     0 0 8px black,
     0 0 12px black;
 }
+
 #CookieBase {
   display: flex;
   flex-direction: column;
-  align-items: center;   /* מרכז אופקית */
+  align-items: center;
+  /* מרכז אופקית */
   justify-content: center;
-  gap: 10px;             /* רווח בין טקסטים לכפתור */
+  gap: 10px;
+  /* רווח בין טקסטים לכפתור */
   position: relative;
-  top: -50px;            /* הזזה למעלה */
+  top: -50px;
+  /* הזזה למעלה */
 }
 
 
+#LogOutButton {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+
+  background: none;
+  border: none;
+  color: black;
+  /* visible on your beige background */
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+
+  z-index: 9999;
+  /* makes sure nothing covers it */
+}
+
+#LogOutButton:hover {
+  opacity: 0.7;
+}
+
+#LogOutButton:active {
+  transform: scale(0.95);
+}

@@ -34,6 +34,7 @@ async function loadGame() {
   let cookies = state.cookies;
   let cursors = state.cursors;
   let MultiplierCost = 100 * Math.pow(5, multiplier - 1);
+  let CursorCost = Math.floor(10 * Math.pow(1.5, cursors))
   UpdateUi();
   clickButton.onclick = async () => {
     cookies += multiplier;
@@ -51,22 +52,25 @@ async function loadGame() {
     location.href = "index.html"
   }
   function UpdateUi() {
+    MultiplierCost = 100 * Math.pow(5, multiplier - 1);
+    CursorCost = Math.floor(10 * Math.pow(1.5, cursors));
     cookiesSpan.textContent = cookies.toString();
     cursorsSpan.textContent = cursors.toString();
     cpsSpan.textContent = String(multiplier * cursors);
-    messageP.textContent = "Cursor purchased!";
-    messageP.style.color = "green";
-    multiplierSpan.textContent = multiplier.toString();
+    multiplierSpan.textContent = String(multiplier)
     BuymultiplierButton.textContent = String(`Buy Multiplier: ${MultiplierCost}`)
-    console.log(MultiplierCost)
+    buyCursorButton.textContent = String(`Buy Cursor: ${CursorCost}`)
 
 
   }
   buyCursorButton.onclick = async () => {
-    if (cookies >= Math.round(10 * Math.pow(1.5, cursors))) {
-      cookies -= Math.round(10 * Math.pow(1.5, cursors));
+    CursorCost = Math.floor(10 * Math.pow(1.5, cursors));
+    if (cookies >= CursorCost) {
+      cookies -= CursorCost;
       cursors++;
       UpdateUi();
+      messageP.style.color = "green";
+      messageP.textContent = "Cursor purchased!";
       await save();
     } else {
       messageP.textContent = "Not enough cookies.";
@@ -75,10 +79,13 @@ async function loadGame() {
   };
   BuymultiplierButton.onclick = async () => {
     MultiplierCost = 100 * Math.pow(5, multiplier - 1);
+    console.log(MultiplierCost)
     if (cookies >= MultiplierCost) {
       cookies -= Math.floor(MultiplierCost);
       multiplier++;
       UpdateUi()
+      messageP.style.color = "green";
+      messageP.textContent = "Cursor purchased!";
       await save()
     } else {
       messageP.textContent = "Not enough cookies.";
